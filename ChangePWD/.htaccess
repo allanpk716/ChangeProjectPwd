@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+   RewriteEngine on
+   RewriteCond %{REQUEST_FILENAME} !-d
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>
+
+<Files *.html>
+  Order Allow,Deny 
+  Deny from all
+</Files>
+
+#order allow,deny
+#deny from 192.167.13.129
+#deny from 219.5.45.
+#allow from all
+
+#这个其实指向的是Apache的htdocs根目录，也就是可以吧403 404丢这里
+ErrorDocument 403 /error.html

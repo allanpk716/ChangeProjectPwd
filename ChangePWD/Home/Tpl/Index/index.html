@@ -1,0 +1,111 @@
+<taglib name='Message' />
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/bootstrap.min.css">
+	<load href="__PUBLIC__/js/jquery.js"  />
+
+	<title>Project 登陆密码修改</title>
+
+	<script type="text/javascript">
+
+		// $(function(){
+		// 	$('button[name = "bt_submit"]').click(function(){
+
+		// 		alert(11);
+		// 		// $('form[name = "myForm"]').submit();
+		// 	});
+		// });
+
+      	function checkInput() {
+      		var uname = document.getElementById("username");
+      		if (uname.value.length == 0) {
+      			alert("请输入用户名");
+      			return false;
+      		}
+
+      		var pwd_old = document.getElementById("password_old");
+      		if (pwd_old.value.length == 0) {
+      			alert("请输入原密码");
+      			return false;
+      		}      		
+
+      		var pwd_new1 = document.getElementById("password_new1");
+      		if (pwd_new1.value.length == 0) {
+      			alert("请输入新密码");
+      			return false;
+      		}      		
+      		var pwd_new2 = document.getElementById("password_new2");
+      		if (pwd_new2.value.length == 0) {
+      			alert("请再次输入新密码");
+      			return false;
+      		}
+
+      		if (pwd_new1.value != pwd_new2.value) {
+      			alert("输入的新密码不一致!");
+      			return false;
+      		};
+
+      		var inputcode = document.getElementById("inputcode");
+      		if (inputcode.value.length == 0) {
+      			alert("请输入验证码");
+      			return false;
+      		}
+      	}
+
+
+		document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==27){ // 按 Esc 
+                //要做的事情
+              }
+            if(e && e.keyCode==113){ // 按 F2 
+                 //要做的事情
+               }            
+             if(e && e.keyCode==13){ // enter 键
+                 //要做的事情
+                 $('form[name = "myForm"]').submit();
+            }
+        };
+
+        //刷新验证码，在进入页面的时候,点击验证码刷新
+        function refreshCode(){
+
+        	document.getElementById('mycode').click();
+        }
+
+	</script>
+
+</head>
+<body>
+	<div class="container" style="width: 500px">
+		<form method="POST" action="__URL__/changePwd" name="myForm">
+		  <div class="form-group">
+		    <label>用户名</label>
+		    <input class="form-control" placeholder="你名字的拼音" name="username" id="username">
+		  </div>
+		  <div class="form-group">
+		    <label>原密码</label>
+		    <input type="password" class="form-control" placeholder="Old Password" name="password_old" id="password_old">
+		  </div>
+		  <div class="form-group">
+		    <label>新密码</label>
+		    <input type="password" class="form-control" placeholder="New Password" name="password_new1" id="password_new1">
+		  </div>
+		  <div class="form-group">
+		    <label>重复新密码</label>
+		    <input type="password" class="form-control" placeholder="Repeat New Password" name="password_new2" id="password_new2">
+		  </div>
+		  <div class="form-group">
+		  		<input type='text' name='code' id='inputcode' />
+		  		<img src='__APP__/Index/code?w=30&h=30' onclick="this.src=this.src+'?'+Math.random()" id='mycode'/>
+		  </div>
+
+		  <button type="submit" class="btn btn-default" name="bt_submit" onclick="return checkInput();" >确认修改</button>
+
+		</form>
+	</div>
+</body>
+</html>
