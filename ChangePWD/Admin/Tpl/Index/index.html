@@ -1,0 +1,125 @@
+<include file="Public:header" />
+	<style type="text/css">@import url(__PUBLIC__/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css);</style>
+	<!-- Third party script for BrowserPlus runtime (Google Gears included in Gears runtime now) -->
+	<script type="text/javascript" src="__PUBLIC__/plupload/js/browserplus-min.js"></script>
+
+	<!-- Load plupload and all it's runtimes and finally the jQuery queue widget -->
+	<script type="text/javascript" src="__PUBLIC__/plupload/js/plupload.full.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/plupload/js/i18n/zh-cn.js"></script>
+  <title>ProjectUser Admin</title>
+</head>
+
+<body>
+	<div class="navbar navbar-default navbar-fixed-top" >
+		<div class="container">
+			<include file="Public:nav" />
+		</div>
+	</div>
+
+  	<div class="jumbotron">
+		<div class="container">
+			<h2>批量添加Project用户<small>　　使用txt文本，一行一个人名的拼音，默认密码为123456</small></h2>
+			<div id="file_container">
+			    <div id="filelist"><p>You browser doesn't have HTML5 or Flash support.</p></div>
+			    <br />
+			    <button class="btn btn-default" type="button" id="pickfiles">选择Txt</button>
+			    <button class="btn btn-default" type="button" id="uploadfiles" onclick="return addUser();" disabled>添加</button>
+			    <button class="btn btn-default" type="button" id="reloadfile">重置</button>
+			</div>
+    	</div><!-- container -->
+	</div><!-- jumbotron -->
+
+	<div id="id_notice"></div>
+
+</body>
+
+<script type="text/javascript">
+
+    //上传
+	function getid(id) {
+		return document.getElementById(id);	
+	}
+
+	var uploader = new plupload.Uploader({
+		runtimes : 'html5,flash',
+		browse_button : 'pickfiles',
+		multi_selection: false,
+		container: 'file_container',
+		max_file_size : '1mb',
+		url : '<{:U("Index/PlupLoad")}>',
+		resize : {width : 320, height : 240, quality : 90},
+		flash_swf_url : '__PUBLIC__/plupload/js/plupload.flash.swf',
+		filters : [
+			{title : "txt files", extensions : "txt"}
+		]
+	});
+
+	uploader.bind('Init', function(up, params) {
+		getid('filelist').innerHTML = "<div>Current runtime: " + params.runtime + "</div>";
+	});
+
+	uploader.init();
+
+	uploader.bind('FilesAdded', function(up, files) {
+
+		if (up.files.length == 1) {
+
+			getid('pickfiles').disabled = true;
+			getid('uploadfiles').disabled = false;
+		};
+
+		if (up.files.length > 1) {
+
+			plupload.each(files, function(file) {
+
+				up.removeFile(file);
+				up.refresh();
+			});
+
+			getid('uploadfiles').disabled = true;
+
+			return false;
+		}
+		
+		for (var i in files) {
+			getid('filelist').innerHTML += '<div id="' + files[i].id + '">' + files[i].name + ' (' + plupload.formatSize(files[i].size) + ') <b></b></div>';
+		}
+	});
+
+	uploader.bind('UploadProgress', function(up, file) {
+		getid(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+	});
+
+	uploader.bind('FileUploaded', function(up, file, info) {
+		//Ajax发送文件名称过去
+		$.post('__APP__/Index/Ajax_Adduser',{filename:file.name},function(jdata){
+
+			if(jdata.status==1){
+				alert(jdata.info);
+			}else{
+				alert(jdata.info);
+			};
+		});
+	});
+
+
+	getid('uploadfiles').onclick = function() {
+
+		if (uploader.files.length > 1) {
+	        alert("只能上传一个文件哦");
+	        return false;
+		}
+
+		uploader.start();
+		return false;
+	};
+
+	getid('reloadfile').onclick = function() {
+
+		location.reload();
+	};
+
+</script>
+
+</html>

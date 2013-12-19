@@ -111,11 +111,12 @@ namespace AddUserAndGrouping
         static int Main(string[] args)
         {
             string[] Args = Environment.GetCommandLineArgs();
-            
+
             /*
-             *                当前exe +  命令 +
-             * AddUserFormTxt                    文件路径
-             * ChangeUserPwd                     用户名  +  密码
+             *                              当前exe +  命令 +
+             * AddUserFormTxt                                    文件路径
+             * AddUserFormTxt_nodisplay                          文件路径
+             * ChangeUserPwd                                     用户名  +  密码
              */
             if (Args.Count() == 3 && Args[1].ToString() == "AddUserFormTxt")
             {
@@ -125,6 +126,15 @@ namespace AddUserAndGrouping
                 AddUserAndGroupingFromTxt(str_filepath);
 
                 Console.ReadKey();
+            }
+            else if (Args.Count() == 3 && Args[1].ToString() == "AddUserFormTxt_nodisplay")
+            {
+                string str_filepath = "";
+                str_filepath = Args[2].ToString();
+
+                AddUserAndGroupingFromTxt(str_filepath);
+
+                return 111;
             }
             else if (Args.Count() == 4 && Args[1].ToString() == "ChangeUserPwd")
             {

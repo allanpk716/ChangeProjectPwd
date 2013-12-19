@@ -67,27 +67,4 @@ class IndexAction extends Action {
         import( 'ORG.Util.Image' );
         Image::buildImageVerify( 4, 1, 'png', $w, $h );
     }
-
-    private function addUser($username) {
-
-    	$User = M("User"); // 实例化User对象
-		$data['username'] = $username;
-		$data['pwd'] = '123456';
-		$User->add($data);
-    }
-
-    //插入初始化用户数据
-    private function insertUser() {
-
-    	$out = file("E:\\userlist.txt");
-		$icout = count($out);
-
-		//循环添加
-		for ($i=0; $i < $icout; $i++) { 
-			
-			//出去空格和换行符
-			$aa = preg_replace("/[\s]{2,}/","",$out[$i]);
-			$this->addUser($aa);
-		}
-    }
 }
