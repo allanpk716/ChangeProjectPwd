@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: 127.0.0.1
--- 生成日期: 2013 年 12 月 04 日 09:08
+-- 生成日期: 2013 年 12 月 19 日 09:50
 -- 服务器版本: 5.5.27
 -- PHP 版本: 5.4.7
 
@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `tp_user` (
   `Pid` double NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL,
   `pwd` varchar(10) NOT NULL,
+  `Group` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`Pid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
 
